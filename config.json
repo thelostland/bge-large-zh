@@ -1,5 +1,5 @@
 {
-  "_name_or_path": "/share/models/ours/zh/finetune/v3_post_finetune_filter_prompt",
+  "_name_or_path": "",
   "architectures": [
     "BertModel"
   ],
