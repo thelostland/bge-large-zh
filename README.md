@@ -3,7 +3,10 @@ license: mit
 language:
 - zh
 pipeline_tag: sentence-similarity
+tags:
+- sentence-transformers
 ---
+
 <h1 align="center">FlagEmbedding</h1>
 
 
@@ -13,22 +16,20 @@ pipeline_tag: sentence-similarity
         <a href=#usage>Usage</a>  |
         <a href="#evaluation">Evaluation</a> |
         <a href="#train">Train</a> |
-        <a href="#contact">Contact</a> |
         <a href="#license">License</a> 
     <p>
 </h4>
+For more details please refer to our GitHub repo: [FlagEmbedding](https://github.com/FlagOpen/FlagEmbedding).
 
-More details please refer to our github: [FlagEmbedding](https://github.com/FlagOpen/FlagEmbedding).
-
-[English](README.md) | [中文](README_zh.md)
+[English](README.md) | [中文](https://github.com/FlagOpen/FlagEmbedding/blob/master/README_zh.md)
 
 FlagEmbedding can map any text to a low-dimensional dense vector which can be used for tasks like retrieval, classification,  clustering, or semantic search.
-And it also can be used in vector database for LLMs.
+And it also can be used in vector databases for LLMs.
 
 ************* 🌟**Updates**🌟 *************
 - 08/05/2023: Release base-scale and small-scale models, **best performance among the models of the same size 🤗**
-- 08/02/2023: Release `bge-large-*`(short for BAAI General Embedding) Models, **rank 1st on MTEB and C-MTEB benchmark!**  
-- 08/01/2023: We release the Chinese Massive Text Embedding Benchmark (**C-MTEB**), consisting of 31 test dataset.   
+- 08/02/2023: Release `bge-large-*`(short for BAAI General Embedding) Models, **rank 1st on MTEB and C-MTEB benchmark!** :tada: :tada: 
+- 08/01/2023: We release the [Chinese Massive Text Embedding Benchmark](https://github.com/FlagOpen/FlagEmbedding/blob/master/C_MTEB) (**C-MTEB**), consisting of 31 test dataset.   
 
 
 ## Model List
@@ -37,12 +38,12 @@ And it also can be used in vector database for LLMs.
 
 |              Model              | Language | Description | query instruction for retrieval |
 |:-------------------------------|:--------:| :--------:| :--------:|
-|  [BAAI/bge-large-en](https://huggingface.co/BAAI/bge-large-en) |   English |  **rank 1st** in [MTEB](https://huggingface.co/spaces/mteb/leaderboard) leaderboard | `Represent this sentence for searching relevant passages: `  |
-|  [BAAI/bge-base-en](https://huggingface.co/BAAI/bge-base-en) |   English |  **rank 2nd** in [MTEB](https://huggingface.co/spaces/mteb/leaderboard) leaderboard | `Represent this sentence for searching relevant passages: `  |
+|  [BAAI/bge-large-en](https://huggingface.co/BAAI/bge-large-en) |   English |  :trophy: rank **1st** in [MTEB](https://huggingface.co/spaces/mteb/leaderboard) leaderboard | `Represent this sentence for searching relevant passages: `  |
+|  [BAAI/bge-base-en](https://huggingface.co/BAAI/bge-base-en) |   English |  rank **2nd** in [MTEB](https://huggingface.co/spaces/mteb/leaderboard) leaderboard | `Represent this sentence for searching relevant passages: `  |
 |  [BAAI/bge-small-en](https://huggingface.co/BAAI/bge-small-en) |   English | a small-scale model but with competitive performance  | `Represent this sentence for searching relevant passages: `  |
-|  [BAAI/bge-large-zh](https://huggingface.co/BAAI/bge-large-zh) |   Chinese | **rank 1st** in [C-MTEB](https://github.com/FlagOpen/FlagEmbedding/tree/master/benchmark) benchmark | `为这个句子生成表示以用于检索相关文章：`  |
-|  [BAAI/bge-large-zh-noinstruct](https://huggingface.co/BAAI/bge-large-zh-noinstruct) |   Chinese | This model is trained without instruction, and **rank 2nd** in [C-MTEB](https://github.com/FlagOpen/FlagEmbedding/tree/master/benchmark) benchmark |   |
-|  [BAAI/bge-base-zh](https://huggingface.co/BAAI/bge-base-zh) |   Chinese |  a base-scale model but with competitive performance | `为这个句子生成表示以用于检索相关文章：`  |
+|  [BAAI/bge-large-zh](https://huggingface.co/BAAI/bge-large-zh) |   Chinese | :trophy: rank **1st** in [C-MTEB](https://github.com/FlagOpen/FlagEmbedding/tree/master/C_MTEB) benchmark | `为这个句子生成表示以用于检索相关文章：`  |
+|  [BAAI/bge-large-zh-noinstruct](https://huggingface.co/BAAI/bge-large-zh-noinstruct) |   Chinese | This model is trained without instruction, and rank **2nd** in [C-MTEB](https://github.com/FlagOpen/FlagEmbedding/tree/master/C_MTEB) benchmark |   |
+|  [BAAI/bge-base-zh](https://huggingface.co/BAAI/bge-base-zh) |   Chinese |  a base-scale model but has similar ability with `bge-large-zh` | `为这个句子生成表示以用于检索相关文章：`  |
 |  [BAAI/bge-small-zh](https://huggingface.co/BAAI/bge-small-zh) |   Chinese | a small-scale model but with competitive performance | `为这个句子生成表示以用于检索相关文章：`  |
 
 
@@ -51,15 +52,16 @@ And it also can be used in vector database for LLMs.
 
 * **Using FlagEmbedding**
 ```
-pip install flag_embedding
+pip install FlagEmbedding
 ```
+See [FlagEmbedding](https://github.com/FlagOpen/FlagEmbedding/blob/master/FlagEmbedding/baai_general_embedding/README.md) for more methods to install FlagEmbedding.
+
 ```python
-from flag_embedding import FlagModel
+from FlagEmbedding import FlagModel
 sentences = ["样例数据-1", "样例数据-2"]
 model = FlagModel('BAAI/bge-large-zh', query_instruction_for_retrieval="为这个句子生成表示以用于检索相关文章：")
 embeddings = model.encode(sentences)
 print(embeddings)
-
 # for retrieval task, please use encode_queries() which will automatically add the instruction to each query
 # corpus in retrieval task can still use encode() or encode_corpus()
 queries = ['query_1', 'query_2']
@@ -88,13 +90,12 @@ embeddings = model.encode(sentences, normalize_embeddings=True)
 print(embeddings)
 ```
 For retrieval task, 
-each query should start with a instruction (instructions see [Model List](https://github.com/FlagOpen/FlagEmbedding/tree/master#model-list)). 
+each query should start with an instruction (instructions see [Model List](https://github.com/FlagOpen/FlagEmbedding/tree/master#model-list)). 
 ```python
 from sentence_transformers import SentenceTransformer
 queries = ["手机开不了机怎么办？"]
 passages = ["样例段落-1", "样例段落-2"]
 instruction = "为这个句子生成表示以用于检索相关文章："
-
 model = SentenceTransformer('BAAI/bge-large-zh')
 q_embeddings = model.encode([instruction+q for q in queries], normalize_embeddings=True)
 p_embeddings = model.encode(passages, normalize_embeddings=True)
@@ -110,16 +111,13 @@ from transformers import AutoTokenizer, AutoModel
 import torch
 # Sentences we want sentence embeddings for
 sentences = ["样例数据-1", "样例数据-2"]
-
 # Load model from HuggingFace Hub
 tokenizer = AutoTokenizer.from_pretrained('BAAI/bge-large-zh')
 model = AutoModel.from_pretrained('BAAI/bge-large-zh')
-
 # Tokenize sentences
 encoded_input = tokenizer(sentences, padding=True, truncation=True, return_tensors='pt')
-# for retrieval task, add a instruction to query
+# for retrieval task, add an instruction to query
 # encoded_input = tokenizer([instruction + q for q in queries], padding=True, truncation=True, return_tensors='pt')
-
 # Compute token embeddings
 with torch.no_grad():
     model_output = model(**encoded_input)
@@ -133,7 +131,7 @@ print("Sentence embeddings:", sentence_embeddings)
 
 ## Evaluation  
 `baai-general-embedding` models achieve **state-of-the-art performance on both MTEB and C-MTEB leaderboard!**
-More details and evaluation scripts see [benchemark](benchmark/README.md). 
+More details and evaluation tools see our [scripts](https://github.com/FlagOpen/FlagEmbedding/blob/master/C_MTEB/README.md). 
 
 - **MTEB**:   
 
@@ -162,7 +160,7 @@ More details and evaluation scripts see [benchemark](benchmark/README.md).
 
 - **C-MTEB**:  
 We create a benchmark C-MTEB for Chinese text embedding which consists of  31 datasets from 6 tasks. 
-Please refer to [benchemark](benchmark/README.md) for a detailed introduction.
+Please refer to [C_MTEB](https://github.com/FlagOpen/FlagEmbedding/blob/master/C_MTEB/README.md) for a detailed introduction.
  
 | Model | Embedding dimension | Avg | Retrieval | STS | PairClassification | Classification | Reranking | Clustering |
 |:-------------------------------|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
@@ -179,18 +177,17 @@ Please refer to [benchemark](benchmark/README.md) for a detailed introduction.
 
 
 
-
 ## Train
 This section will introduce the way we used to train the general embedding. 
-The training scripts are in [flag_embedding](https://github.com/FlagOpen/FlagEmbedding/tree/master/flag_embedding/baai_general_embedding/), 
-and we provide some examples to do [pre-train](https://github.com/FlagOpen/FlagEmbedding/tree/master/examples/pretrain/) and [fine-tune](https://github.com/FlagOpen/FlagEmbedding/tree/master/examples/finetune).
+The training scripts are in [FlagEmbedding](https://github.com/FlagOpen/FlagEmbedding/blob/master/FlagEmbedding/baai_general_embedding/README.md), 
+and we provide some examples to do [pre-train](https://github.com/FlagOpen/FlagEmbedding/blob/master/examples/pretrain/README.md) and [fine-tune](https://github.com/FlagOpen/FlagEmbedding/blob/master/examples/finetune/README.md).
 
 
 **1. RetroMAE Pre-train**  
 We pre-train the model following the method [retromae](https://github.com/staoxiao/RetroMAE), 
 which shows promising improvement in retrieval task ([paper](https://aclanthology.org/2022.emnlp-main.35.pdf)). 
 The pre-training was conducted on 24 A100(40G) GPUs with a batch size of 720. 
-In retromae, the mask ratio of the encoder and decoder are 0.3, and 0.5 respectively.
+In retromae, the mask ratio of encoder and decoder are 0.3, and 0.5 respectively.
 We used the AdamW optimizer and the learning rate is 2e-5.
 
 **Pre-training data**:
@@ -214,26 +211,24 @@ We trained our model on 48 A100(40G) GPUs with a large batch size of 32,768 (so 
 We used the AdamW optimizer and the learning rate is 1e-5.
 The temperature for contrastive loss is 0.01.
 
-For the version with `*-instrcution`, we add instruction to the query for the retrieval task in the training. 
-For English, the instruction is `Represent this sentence for searching relevant passages: `;
-For Chinese, the instruction is `为这个句子生成表示以用于检索相关文章：`.
+For the version with `*-instrcution`, we add instruction to the query for retrieval task in the training. 
+For english, the instruction is `Represent this sentence for searching relevant passages: `;
+For chinese, the instruction is `为这个句子生成表示以用于检索相关文章：`.
 In the evaluation, the instruction should be added for sentence to passages retrieval task, not be added for other tasks.
 
 
-The finetune script is accessible in this repository: [flag_embedding](https://github.com/FlagOpen/FlagEmbedding/tree/master/flag_embedding/baai_general_embedding/README.md). 
+The finetune script is accessible in this repository: [FlagEmbedding](https://github.com/FlagOpen/FlagEmbedding/blob/master/FlagEmbedding/baai_general_embedding/README.md). 
 You can easily finetune your model with it.
 
 **Training data**:
 
 - For English, we collect 230M text pairs from [wikipedia](https://huggingface.co/datasets/wikipedia), [cc-net](https://github.com/facebookresearch/cc_net), and so on.
 
-- For Chinese, we collect 120M text pairs from [wudao](https://github.com/BAAI-WuDao/Data), [simclue](https://github.com/CLUEbenchmark/SimCLUE) and so on.
+- For chinese, we collect 120M text pairs from [wudao](https://github.com/BAAI-WuDao/Data), [simclue](https://github.com/CLUEbenchmark/SimCLUE) and so on.
 
 **The data collection is to be released in the future.**
 
-We will continually update the embedding models and training codes, 
-hoping to promote the development of the embedding model community.
 
 
 ## License
-FlagEmbedding is licensed under [MIT License](). The released models can be used for commercial purposes free of charge.
+FlagEmbedding is licensed under [MIT License](https://github.com/FlagOpen/FlagEmbedding/blob/master/LICENSE). The released models can be used for commercial purposes free of charge.
