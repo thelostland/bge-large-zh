@@ -19,6 +19,7 @@ tags:
         <a href="#license">License</a> 
     <p>
 </h4>
+
 For more details please refer to our GitHub repo: [FlagEmbedding](https://github.com/FlagOpen/FlagEmbedding).
 
 [English](README.md) | [中文](https://github.com/FlagOpen/FlagEmbedding/blob/master/README_zh.md)
